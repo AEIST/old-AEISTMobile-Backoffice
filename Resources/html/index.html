@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+ <html lang="en">
+  <head>
+   <meta charset="utf-8" />
+   <style type="text/css">
+   		@import "stylesheets/main.css";	
+   </style>
+    <title>AEIST Mobile Backoffice</title>
+  </head>  
+
+<body id="index" class="home">
+  <header id="banner" class="body">
+   <h1>
+   	<p>AEIST Mobile Backoffice</p>
+   </h1>
+
+     <nav>
+     	<ul>
+     	 <li class="active">
+     	 	<a href="#">Eventos</a>
+     	 </li>
+     	  <li>
+     	  	<a href='javascript:alert("TO IMPLEMENT");'>Equipas Desportivas</a>
+     	  </li>  
+     	  <li>
+     	  	<a href='javascript:alert("TO IMPLEMENT");'>Noticias</a>
+     	  </li> 
+     	</ul>
+     </nav>  
+ </header><!-- /#banner -->	  
+
+ <script type="text/javascript">
+
+ 	function confirmEventDeletion() {
+ 		var answer = confirm ("Apagar o evento?");
+ 		if (true) {
+ 			window.location.href='/event'
+ 		}
+ 	}
+
+ </script>
+
+<section id="content" class="body"> 
+	<ol id="posts-list" class="hfeed"> 
+		<button class="new-event" onclick="location.href='/novoevento'">Novo evento</button>
+
+		{% block Event %}
+    		{% for e in events %}
+			<li>
+				<article class="hentry">
+					 <header> 
+					 	<h2 class="entry-title">
+					 		<a href="#" rel="bookmark">{{e.name}}</a>
+					 	</h2>  
+					 </header>  
+					 <footer class="post-info"> 
+					 	<abbr class="published" title="creationDate">{{e.time}}</abbr>  
+					 	<address class="vcard author">  By <a class="url fn" href="#">{{e.author}}</a> </address> 
+					 </footer>
+					 <div class="entry-content">
+					   <p>{{e.description}}</p> 
+					</div>
+					<div>
+						<p><b>Facebook link:</b>  {{e.facebook_link}}</p>
+					</div>
+					<div> 						
+						<button onclick='javascript:alert("TO IMPLEMENT");'>Editar</button>
+						<button onclick="location.href='/delete-event?=todo'">Apagar</button>						
+					</div>
+				</article>
+			
+			</li>   
+    		{% endfor %}
+		{% endblock Event %}
+	</ol>
+</section><!-- /#content -->  
+
+
+<footer id="contentinfo" class="body"> 
+	<p>&copy 2012 <a href="http://smashingmagazine.com">Joao Vasques</a>.</p> 
+</footer>
+
+</body> 
+</html> 
