@@ -23,7 +23,7 @@ Process Set-up
 4. Install Google App Engine for Python (https://developers.google.com/appengine/downloads)
 5. Run:
 
-	dev_appserver.py $PROJECT
+    dev_appserver.py $PROJECT
 
 Remember never to commit to master, as otherwise you will not be able to fetch and merge correctly.
 
