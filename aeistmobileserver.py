@@ -19,7 +19,7 @@ from events.web_services import ShowAllEvents
 from controllers.EventController import EventController
 
 
-def getAllEvents():
+def getAllEvents(self):
 
       query = db.GqlQuery("SELECT * "
                             "FROM Evento")      
@@ -41,7 +41,10 @@ def getAllEvents():
           json_event_info['facebook_link'] = str(link)
           json_event_info['image_key'] = str(image_key)
           json_event_info['time'] = str(time)
-          json_event_info['author'] = str(author)        
+          json_event_info['author'] = str(author)
+          currentUrl = self.request.url;
+          json_event_info['deleteLink'] = currentUrl + 'delete-event?name=' + name+"&type=delete";
+          json_event_info['updateLink'] = "";
           events.append(json_event_info)
             
       return events                
@@ -51,7 +54,7 @@ class MainPage(webapp.RequestHandler):
     
     def get(self):
 
-      events = getAllEvents()
+      events = getAllEvents(self)
 
       templateValues = {
             'events': events
