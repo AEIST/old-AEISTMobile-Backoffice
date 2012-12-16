@@ -37,7 +37,6 @@ class GetEventInformation(webapp.RequestHandler):
         query = db.GqlQuery("SELECT * "
                             "FROM Evento")
 
-        #event = EventInformation(nome='nome-def',descricao='descricao-def',link_facebook='link_-def')
         event = Evento()
         event_info = {}
         
@@ -54,14 +53,11 @@ class GetEventInformation(webapp.RequestHandler):
                 event_info['description'] = str(des)
                 event_info['facebook_link'] = str(link)
                 event_info['author'] = e.author
-                #event_info['eventTag'] = e.eventTag
+                #TODO: event_info['eventTag'] = e.eventTag
                 event_info['image'] = base64.b64encode(str(e.image))
 
                 #TODO: put binary into string -> base64 -> put into json array
-#                 event_info['image_key'] = str(image_key)
-#                 image_reader = blobstore.BlobReader(image_key)
-#                 image = image_reader.read()                
-#                 event_info['image'] = image                
+              
                 break
             
         json_event_info = json.dumps(event_info)    
