@@ -17,7 +17,7 @@ class EventController(webapp.RequestHandler):
 		event = query.get()
 
 		if not event:
-			## TODO: Javascript popup with error message
+			# TODO: Javascript popup with error message
 			self.response.out.write('Info: no such event')
 			values = {}
 			values['eventDeleted'] = 'success';
@@ -61,6 +61,4 @@ class EventController(webapp.RequestHandler):
 	def parseEventName(self,unparsedEventName):
 		eventName = re.sub('_',' ',unparsedEventName)
 		return eventName
-
-	
 		
