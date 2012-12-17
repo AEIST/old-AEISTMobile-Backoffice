@@ -65,7 +65,7 @@ class MainPage(webapp.RequestHandler):
             'events': events
       }
 
-      path = os.path.join(os.path.dirname(__file__), 'Resources/html/index.html')
+      path = os.path.join(os.path.dirname(__file__), 'templates/index.html')
       self.response.out.write(template.render(path, templateValues))
 
            
