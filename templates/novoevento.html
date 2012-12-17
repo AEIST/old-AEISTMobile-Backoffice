@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Novo Evento</title>
+	<link rel="stylesheet" href="static/new_event.css">
+  </head>
+  
+  <body>
+
+    <div id="contact-form" class="clearfix">
+    
+    <form action="/novoevento" method="post" enctype="multipart/form-data">
+        <label for="name">Nome evento: <span class="required">*</span></label>
+        <input type="text" id="nomeevento" name="eventName" value="" placeholder="evento" required="required" autofocus="autofocus" />
+
+        <label for="name">Link Facebook: <span class="required">*</span></label>
+        <input type="text" id="linkfacebook" name="facebookLink" value="" placeholder="descricao" required="required" autofocus="autofocus" />
+
+        <label for="message">Descricao: <span class="required">*</span></label>
+        <textarea id="descricaoevento" name="description" placeholder="Tem de ser maior que 20 caracteres" required="required" data-minlength="20"></textarea>
+
+        <label for="message">Tag do evento: <span class="required">*</span></label>        
+    		<select id="">
+    			<option value ="recreativa" selected >Recreativa e Cultural</option>
+    			<option value ="melbourne">Desporto</option>
+    			<option value ="cromwell" >GEFE</option>
+    			<option value ="queenstown">Politica Educativa</option>
+    		</select>
+
+        <label for="message">Imagem: <span class="required">*</span></label>		
+		    <input type='file' name='image' id='file'/>
+        <input type="submit" value="Criar Evento" id="submit-button" />	
+		
+        <p id="req-field-desc"><span class="required">*</span>Campo obrigatório</p>				
+    </form>
+</div>
+    
+   
+      	  
+  </body>
+</html>
