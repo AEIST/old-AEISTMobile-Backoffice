@@ -2,13 +2,14 @@
 
 import logging
 import os
+import json
+import re
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import template
 from google.appengine.ext import db
 
-import json
 
 from events.operations import CreateNewEventController
 
@@ -43,8 +44,12 @@ def getAllEvents(self):
           json_event_info['time'] = str(time)
           json_event_info['author'] = str(author)
           currentUrl = self.request.url;
-          json_event_info['deleteLink'] = currentUrl + 'delete-event?name=' + name+"&type=delete";
-          json_event_info['updateLink'] = "";
+
+          if " " in name:
+            name = re.sub(r"\s","_",name)
+
+          json_event_info['deleteLink'] = currentUrl + 'delete-event?name=' + name+"&type=delete"
+          json_event_info['updateLink'] = ""
           events.append(json_event_info)
             
       return events                
