@@ -6,24 +6,27 @@ from model.event import Evento
 
 import json
 import logging
+import re
 
 class EventController(webapp.RequestHandler):
 
 	def deleteEvent(self, eventName):
-		self.response.out.write('TODO: ' + eventName + "\n");
-
 		query = db.GqlQuery("SELECT * "
 							"FROM Evento "
 							"WHERE nome = :1", eventName)
 		event = query.get()
 
 		if not event:
-			## TODO: redirect to home page. Javascript popup with error message
-			self.response.out.write('error: no such event')
+			## TODO: Javascript popup with error message
+			self.response.out.write('Info: no such event')
+			values = {}
+			values['eventDeleted'] = 'success';
+			self.redirect('/')
 		else :
 			event.delete()
-			# TODO: redirect to home page. Javascript popup saying all went well
+			# TODO: Javascript popup saying all went well
 			self.response.out.write('Event deleted with success')
+			self.redirect('/')			
 
 
 	def updateEvent(self, eventName, updates):
@@ -34,14 +37,30 @@ class EventController(webapp.RequestHandler):
 		self.response.headers['Content-Type'] = 'text/plain'
 		requestType = self.request.get('type')
 
-		if requestType == 'delete':
-			event_name = self.request.get('name')
-			self.deleteEvent(event_name)
+		logging.info('Received request with type: ' + requestType)
+
+		if requestType == 'delete':	
+			eventName = self.request.get('name')
+
+			if "_" in eventName:
+				eventName = self.parseEventName(eventName)
+
+			logging.info('Name of event to be deleted: ' + eventName)
+			self.deleteEvent(eventName)
 
 		else :
 			if requestType == 'update':
-				event_name = self.request.get('name')
-				self.updateEvent(event_name)
+				eventName = self.request.get('name')
+
+				if "_" in eventName:
+					eventName = self.parseEventName(eventName)
+
+				logging.info('Name of event to be updated: ' + eventName)
+				self.updateEvent(eventName)
+
+	def parseEventName(self,unparsedEventName):
+		eventName = re.sub('_',' ',unparsedEventName)
+		return eventName
 
 	
 		
