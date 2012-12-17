@@ -19,7 +19,7 @@ class CreateNewEventController(webapp.RequestHandler):
     
     # Present HTML form page
     def get(self):
-        self.response.out.write(template.render("Resources/html/novoevento.html",{}))
+        self.response.out.write(template.render("templates/novoevento.html",{}))
 
     # Gets information from the from and creates the new event
     def post(self, *args):
