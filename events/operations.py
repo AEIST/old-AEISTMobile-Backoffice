@@ -39,6 +39,6 @@ class CreateNewEventController(webapp.RequestHandler):
         event.time = creationDate
         event.author = "default"
         event.image = db.Blob(image)
-        db.put(event)
+        event.put()
         
-        self.redirect("/")
+        self.redirect("/events")

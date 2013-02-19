@@ -15,12 +15,15 @@ import logging
 class Evento(db.Model):
     nome = db.StringProperty()
     descricao = db.TextProperty()
-    link_facebook = db.StringProperty()
+    link_facebook = db.LinkProperty()
+    local = db.StringProperty()
+    date = db.StringProperty()
+    time = db.StringProperty()
     imagem_key = db.StringProperty()
     image = db.BlobProperty()
     eventTag = db.StringProperty()
     author = db.StringProperty()
-    time = db.DateTimeProperty()
+    #time = db.DateTimeProperty()
 
     @staticmethod
     def deleteEvent(event_name):

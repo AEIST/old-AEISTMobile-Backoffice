@@ -6,9 +6,11 @@ Created on Oct 29, 2012
 
 from google.appengine.ext import db
 from google.appengine.ext import webapp
+from google.appengine.ext.webapp import template
 from google.appengine.ext import blobstore
 import json
 import base64
+import os
 from protorpc import messages
 from model.event import Evento
 
@@ -32,7 +34,7 @@ class GetEventInformation(webapp.RequestHandler):
         # Get event name from HTTP argument
         event_name = str(self.request.get_all("name")[0])             
         event_name = event_name.replace("_", " ")           
-          
+        
         self.response.headers['Content-Type'] = 'application/json'         
         query = db.GqlQuery("SELECT * "
                             "FROM Evento")
@@ -62,7 +64,7 @@ class GetEventInformation(webapp.RequestHandler):
             
         json_event_info = json.dumps(event_info)    
         self.response.out.write(json_event_info)
-        
+       
 
 '''
 Gets a list (JSON array) with the names of all events
