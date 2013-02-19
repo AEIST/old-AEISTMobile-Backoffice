@@ -1,44 +1,36 @@
 <!DOCTYPE html>
- <html lang="en">
-  <head>
-   <meta charset="utf-8" />
-   <style type="text/css">
-   		@import "static/main.css";	
-   </style>
-    <title>AEIST Mobile Backoffice</title>
-  </head>  
+<html lang="en">
+<head>
+ <meta charset="utf-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <style type="text/css">
+ /*@import "static/main.css"; */
+ @import "/static/css/bootstrap-responsive.min.css";
+ @import "/static/css/bootstrap.min.css";
+ </style>
+ <title>AEIST Mobile Backoffice</title>
+ <script src="/static/js/jquery-1.9.0.min.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
+</head>  
 
-<body id="index" class="home">
-  <header id="banner" class="body">
-   <h1>
-   	<p>AEIST Mobile Backoffice</p>
-   </h1>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <a class="brand" href="/">AEIST Mobile</a>
+        <ul class="nav nav-collapse">
+          <li id="events-tab"><a href="/events">Eventos</a></li>
+        </ul>
+      </div>
+    </nav>  
+  </header><!-- /#banner -->  
 
-     <nav>
-     	<ul>
-     	 <li class="active">
-     	 	<a href="#">Eventos</a>
-     	 </li>
-     	  <li>
-     	  	<a href='javascript:alert("TO IMPLEMENT");'>Equipas Desportivas</a>
-     	  </li>  
-     	  <li>
-     	  	<a href='javascript:alert("TO IMPLEMENT");'>Noticias</a>
-     	  </li> 
-     	</ul>
-     </nav>  
- </header><!-- /#banner -->	
+  <section class="container-fluid">
+    {% block bodycontent %}
+    Replace this
+    {% endblock %}
 
-<section id="content" class="body">
-	{% block bodycontent %}
-		Replace this
-	{% endblock %}
-
-</section>
-
-<footer id="contentinfo" class="body"> 
-	<p>&copy 2012 Joao Vasques</p> 
-</footer>
-
+  </section>
+  
 </body> 
 </html> 

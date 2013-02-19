@@ -1,0 +1,19 @@
+{% extends "_base.html" %}
+{% block bodycontent %}
+
+{% block Event %}
+<div class="row-fluid">
+    <div class="span12">
+        <h2>{{ name }}</h2>
+        <p>{{ description }}</p>
+        <img src="{{ image_link }}" alt="">
+    </div>
+</div>
+<div class="row-fluid">
+    <div class="span12">
+        <a href="/events" class="btn">Voltar</a>
+    </div>
+</div>
+{% endblock Event %}
+
+{% endblock %}

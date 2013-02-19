@@ -1,35 +1,12 @@
 {% extends "_base.html" %}
 {% block bodycontent %}
-	<ol id="posts-list" class="hfeed"> 
-		<button class="new-event" onclick="location.href='/novoevento'">Novo evento</button>
+<div class="row-fluid">
+	<div class="hero-unit">
+		<h1>AEIST</h1>
+        <h3>Backoffice from the greatest app in the world!</h3>      
+	</div>
+</div>
+<script>
 
-		{% block Event %}
-    		{% for e in events %}
-			<li>
-				<article class="hentry">
-					 <header> 
-					 	<h2 class="entry-title">
-					 		<a href="#" rel="bookmark">{{e.name}}</a>
-					 	</h2>  
-					 </header>  
-					 <footer class="post-info"> 
-					 	<abbr class="published" title="creationDate">{{e.time}}</abbr>  
-					 	<address class="vcard author">  By <a class="url fn" href="#">{{e.author}}</a> </address> 
-					 </footer>
-					 <div class="entry-content">
-					   <p>{{e.description}}</p> 
-					</div>
-					<div>
-						<p><b>Facebook link:</b>  {{e.facebook_link}}</p>
-					</div>
-					<div> 						
-						<button onclick='javascript:alert("TO IMPLEMENT");'>Editar</button>
-						<button onclick="location.href='{{e.deleteLink}}'">Apagar</button>						
-					</div>
-				</article>
-			
-			</li>   
-    		{% endfor %}
-		{% endblock Event %}
-	</ol>
+</script>
 {% endblock %}

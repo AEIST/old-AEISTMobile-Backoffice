@@ -1,0 +1,67 @@
+{% extends "_base.html" %}
+{% block bodycontent %} 
+<div class="row-fluid">
+    <div class="span12">
+        <a class="btn btn-primary" href="/events/new">Novo evento</a>
+    </div>
+</div>
+<br>
+{% block Event %}
+<div class="row-fluid">
+    <div class="span12">
+        {% if events %}
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Local</th>
+                    <th>Data</th>
+                    <th>Hora</th>
+                    <th>Link</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in events %}
+                <tr>
+                    <td><a href="{{ e.direct_link }}">{{e.name}}</a></td>
+                    <td>{{e.description}}</td>
+                    <td>{{ e.local }}</td>
+                    <td>{{ e.date }}</td>
+                    <td>{{ e.time }}</td>
+                    <td><a href="{{e.facebook_link}}">{{ e.facebook_link }}</a></td>
+                    <td>
+                        <a href="{{ e.edit_link }}" class="btn"><i class="icon-pencil"></i></a>
+                        <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"><i class="icon-trash icon-white"></i></a>
+                        <div id="deleteModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 id="myModalLabel">Eliminar evento</h3>
+                        </div>
+                        <div class="modal-body">
+                            <p>Deseja eliminar este evento?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</a>
+                            <a class="btn btn-danger" href="{{ e.delete_link }}">Eliminar</a>
+                        </div>
+                    </div>
+                    </td>
+                </tr>   
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock Event %}
+<script>
+    (function () {
+        $('#events-tab').addClass('active');
+        $('#myModal').modal('hide');
+
+    })();
+</script>
+{% endblock %}
