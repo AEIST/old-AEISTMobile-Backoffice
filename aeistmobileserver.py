@@ -18,6 +18,7 @@ from events.web_services import GetEventInformation
 from events.web_services import ShowAllEvents
 
 from controllers.EventController import EventController
+from controllers.DataController import DataController
 
 
 def getAllEvents(self):
@@ -52,32 +53,36 @@ def getAllEvents(self):
           json_event_info['updateLink'] = ""
           events.append(json_event_info)
             
-      return events                
+      return events
+
+
 
 class MainPage(webapp.RequestHandler):
     
-    
     def get(self):
 
-      events = getAllEvents(self)
-
-      templateValues = {
-            'events': events
-      }
-
       path = os.path.join(os.path.dirname(__file__), 'templates/index.html')
-      self.response.out.write(template.render(path, templateValues))
+      self.response.out.write(template.render(path, {}))
+
+
+routes = [
+          ('/', MainPage),
+          ('/events', EventController),
+          ('/events/new', EventController.NewEventHandler),
+          (r'/events/(\d+)', EventController.ShowEventHandler),
+          (r'/events/delete/(\d+)', EventController.DeleteEventHandler),
+          (r'/events/edit/(\d+)', EventController.EditEventHandler),
+          (r'/events/images/(\d+)', EventController.ImageHandler),
+          (r'/data/events/(\d+)', DataController.GetEventData),
+          (r'/data/events', DataController.GetAllEventsData),
+          ('/delete-event',EventController),
+          ('/getalleventsnames',GetAllEventsNames),
+          ('/showallevents',ShowAllEvents),
+          ]
+    
 
            
-application = webapp.WSGIApplication([
-                                      ('/', MainPage),
-                                      ('/delete-event',EventController),
-                                      ('/novoevento', CreateNewEventController),
-                                      ('/getalleventsnames',GetAllEventsNames),
-                                      ('/showallevents',ShowAllEvents),
-                                      ('/geteventinfo',GetEventInformation),
-                                      ]
-                                      ,debug=True)
+application = webapp.WSGIApplication(routes=routes,debug=True)
 
 def main():
     run_wsgi_app(application)
