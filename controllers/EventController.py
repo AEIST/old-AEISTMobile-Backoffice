@@ -51,8 +51,8 @@ class EventController(webapp.RequestHandler):
             #event.time = creationDate
             event.author = "default"
 
-            if image:
-                event.image = db.Blob(images.resize(image, 300))
+            # if image:
+            #     event.image = db.Blob(images.resize(image, 300))
                 
             event.put()
             
