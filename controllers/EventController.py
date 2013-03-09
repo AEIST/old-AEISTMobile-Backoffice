@@ -165,4 +165,3 @@ def getEvent(ident):
     event = jsonEventInfo
 
     return event
-
