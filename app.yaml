@@ -11,7 +11,10 @@ handlers:
 
 - url: /Resources/img
   static_dir: Resources/img
- 
-- url: /.*
-  script: aeistmobileserver.py
 
+- url: /.*
+  script: aeistmobile.app
+
+libraries:
+- name: jinja2
+  version: 2.6
