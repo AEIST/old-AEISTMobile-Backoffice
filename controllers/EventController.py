@@ -4,7 +4,7 @@ import webapp2
 import jinja2
 from google.appengine.ext import db
 from google.appengine.api import images
-from model.event import Evento
+from model.event import Event
 
 import datetime
 import json
@@ -16,13 +16,11 @@ class EventController(webapp2.RequestHandler):
 
     @staticmethod
     def getTemplate(path):
-
         jinja_environment = jinja2.Environment(
         loader=jinja2.FileSystemLoader(os.path.dirname(__file__).replace('controllers','')))
         return jinja_environment.get_template(path)
 
     def get(self):
-
         events = getAllEvents(self)
         templateValues = {
             'events': events
@@ -32,20 +30,19 @@ class EventController(webapp2.RequestHandler):
         self.response.out.write(template.render(templateValues))
 
     class NewEventHandler(webapp2.RequestHandler):
-        def get(self):
 
+        def get(self):
             template = EventController.getTemplate('templates/new_event.html')
             self.response.out.write(template.render({}))
 
         def post(self):
-
-            event = Evento()
-            event.nome = self.request.get("name")
-            event.descricao = self.request.get("description")
+            event = Event()
+            event.name = self.request.get("name")
+            event.description = self.request.get("description")
             event.local = self.request.get("local")
             event.date = self.request.get("date")
             event.time = self.request.get("time")
-            event.link_facebook = self.request.get("facebook_link")
+            event.linkFacebook = self.request.get("facebook_link")
             event.eventTag = "default-tag"
             event.author = "default"
 
@@ -53,23 +50,19 @@ class EventController(webapp2.RequestHandler):
             #     event.image = db.Blob(images.resize(self.request.get("image"), 300))
 
             event.put()
-
             self.redirect("/events")
 
     class ShowEventHandler(webapp2.RequestHandler):
+
         def get(self, *args):
-
-            event_id = args[0]
-            event = getEvent(event_id)
-
+            event = getEvent(args[0])
             template = EventController.getTemplate('templates/show_event.html')
             self.response.out.write(template.render({}))
 
     class DeleteEventHandler(webapp2.RequestHandler):
-        def get(self, *args):
 
-            event_id = args[0]
-            event = Evento.get_by_id(long(event_id))
+        def get(self, *args):
+            event = Event.get_by_id(long(args[0]))
 
             if event:
                 event.delete()
@@ -79,16 +72,12 @@ class EventController(webapp2.RequestHandler):
     class EditEventHandler(webapp2.RequestHandler):
 
         def get(self, ident):
-
-            event_id = ident
-            event = getEvent(event_id)
+            event = getEvent(ident)
             template = EventController.getTemplate('templates/edit_event.html')
             self.response.out.write(template.render({}))
 
         def post(self, ident):
-
-            event_id = ident
-            event = Evento.get_by_id(long(ident))
+            event = Event.get_by_id(long(ident))
             event.nome = self.request.get("name")
             event.descricao = self.request.get("description")
             event.local = self.request.get("local")
@@ -107,7 +96,7 @@ class EventController(webapp2.RequestHandler):
     class ImageHandler(webapp2.RequestHandler):
 
         def get(self, ident):
-            event = Evento.get_by_id(long(ident))
+            event = Event.get_by_id(long(ident))
 
             if event.image:
                 self.response.headers['Content-Type'] = 'image/*'
@@ -115,21 +104,19 @@ class EventController(webapp2.RequestHandler):
 
 
 def getAllEvents(self):
-
-    query = db.GqlQuery("SELECT * "
-                        "FROM Evento")
+    query = db.GqlQuery("SELECT * FROM Event")
     events = []
 
     for n in query:
 
         jsonEventInfo = {}
-        jsonEventInfo['name'] = str(n.nome)
-        jsonEventInfo['description'] = str(n.descricao)
+        jsonEventInfo['name'] = str(n.name)
+        jsonEventInfo['description'] = str(n.description)
         jsonEventInfo['local'] = str(n.local)
         jsonEventInfo['date'] = str(n.date)
         jsonEventInfo['time'] = str(n.time)
-        jsonEventInfo['facebook_link'] = str(n.link_facebook)
-        jsonEventInfo['image_key'] = str(n.imagem_key)
+        jsonEventInfo['facebook_link'] = str(n.linkFacebook)
+        jsonEventInfo['image_key'] = str(n.imageKey)
         jsonEventInfo['author'] = str(n.author)
         currentUrl = self.request.url;
 
@@ -145,17 +132,16 @@ def getAllEvents(self):
 
 
 def getEvent(ident):
-
-    event = Evento.get_by_id(long(ident))
+    event = Event.get_by_id(long(ident))
 
     jsonEventInfo = {}
-    jsonEventInfo['name'] = str(event.nome)
-    jsonEventInfo['description'] = str(event.descricao)
+    jsonEventInfo['name'] = str(event.name)
+    jsonEventInfo['description'] = str(event.description)
     jsonEventInfo['local'] = str(event.local)
     jsonEventInfo['date'] = str(event.date)
     jsonEventInfo['time'] = str(event.time)
-    jsonEventInfo['facebook_link'] = str(event.link_facebook)
-    jsonEventInfo['image_key'] = str(event.imagem_key)
+    jsonEventInfo['facebook_link'] = str(event.linkFacebook)
+    jsonEventInfo['image_key'] = str(event.imageKey)
     jsonEventInfo['author'] = str(event.author)
     jsonEventInfo['image_link'] = '/events/images/' + str(ident)
 
@@ -163,5 +149,4 @@ def getEvent(ident):
         jsonEventInfo['name'] = re.sub(r"\s","_",jsonEventInfo['name'])
 
     event = jsonEventInfo
-
     return event
