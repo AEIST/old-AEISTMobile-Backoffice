@@ -10,8 +10,6 @@ import jinja2
 from google.appengine.ext import db
 
 
-from events.operations import CreateNewEventController
-
 from events.web_services import GetAllEventsNames
 from events.web_services import GetEventInformation
 from events.web_services import ShowAllEvents
@@ -24,9 +22,7 @@ jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 def getAllEvents(self):
-
-      query = db.GqlQuery("SELECT * "
-                            "FROM Evento")
+      query = db.GqlQuery("SELECT * FROM Event")
       events = []
 
       for n in query:
@@ -55,7 +51,6 @@ class MainPage(webapp2.RequestHandler):
     def get(self):
       template = jinja_environment.get_template('templates/index.html')
       self.response.out.write(template.render({}))
-
 
 routes = [
           ('/', MainPage),
