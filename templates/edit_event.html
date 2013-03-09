@@ -1,4 +1,4 @@
-{% extends "_base.html" %}
+{% extends "templates/_base.html" %}
 {% block bodycontent %}
 
 {% block Event %}
@@ -16,7 +16,7 @@
         <input type="date" name="date" value="{{ date }}">
         <label for="time">Hora:</label>
         <input type="time" name="time" value="{{ time }}">
-        <label for="tag">Tag:</label>        
+        <label for="tag">Tag:</label>
         <select>
             <option value ="recreativa" selected >Recreativa e Cultural</option>
             <option value ="melbourne">Desporto</option>

@@ -1,8 +1,8 @@
-application: aeistmobile
+application: aeistmobile-backoffice
 version: 1
 runtime: python27
 api_version: 1
-threadsafe: false
+threadsafe: true
 
 handlers:
 
@@ -11,7 +11,10 @@ handlers:
 
 - url: /Resources/img
   static_dir: Resources/img
- 
-- url: /.*
-  script: aeistmobileserver.py
 
+- url: /.*
+  script: aeistmobile.app
+
+libraries:
+- name: jinja2
+  version: 2.6
