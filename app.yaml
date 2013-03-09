@@ -13,7 +13,7 @@ handlers:
   static_dir: Resources/img
 
 - url: /.*
-  script: aeistmobile.app
+  script: aeistmobile-backoffice.app
 
 libraries:
 - name: jinja2

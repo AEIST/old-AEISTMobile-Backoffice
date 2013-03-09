@@ -1,9 +1,8 @@
 #!/usr/bin/python
 
-from google.appengine.ext import webapp
-from google.appengine.ext.webapp import template
+import webapp2
 from google.appengine.ext import db
-from model.event import Evento
+from model.event import Event
 
 import datetime
 import json
@@ -12,45 +11,40 @@ import os
 import logging
 import re
 
-class DataController(webapp.RequestHandler):
+class DataController(webapp2.RequestHandler):
 
-    class GetEventData(webapp.RequestHandler):
+    class GetEventData(webapp2.RequestHandler):
 
         def get(self, ident):
-            event = Evento.get_by_id(long(ident))
-
+            event = Event.get_by_id(long(ident))
             self.response.headers['Content-Type'] = 'application/json'
 
-            event_data = {
-                "name": event.nome,
-                "description": event.descricao,
-                "facebook_link": event.link_facebook,
+            eventData = {
+                "name": event.name,
+                "description": event.description,
+                "facebook_link": event.linkFacebook,
                 "image": base64.b64encode(str(event.image))
             }
+            jsonEventData = json.dumps(eventData)
+            self.response.write(jsonEventData)
 
-            json_event_data = json.dumps(event_data)
-
-            self.response.write(json_event_data)
-
-    class GetAllEventsData(webapp.RequestHandler):
+    class GetAllEventsData(webapp2.RequestHandler):
 
         def get(self):
             self.response.headers['Content-Type'] = 'application/json'
-            
-            query = db.GqlQuery("SELECT * FROM Evento")
-
-            events_data = []
+            query = db.GqlQuery("SELECT * FROM Event")
+            eventsData = []
 
             for event in query:
-                event_data = {
-                    "name": event.nome,
-                    "description": event.descricao,
-                    "facebook_link": event.link_facebook,
+                eventsData = {
+                    "name": event.name,
+                    "description": event.description,
+                    "facebook_link": event.linkFacebook,
                     "image": base64.b64encode(str(event.image))
                 }
 
-                events_data.append(event_data)
+                eventsData.append(eventsData)
 
-            json_events_data = json.dumps(events_data)
+            jsonEventsData = json.dumps(eventsData)
 
-            self.response.write(json_events_data)
+            self.response.write(jsonEventsData)

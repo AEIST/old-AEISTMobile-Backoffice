@@ -12,7 +12,7 @@ import json
 import base64
 import os
 from protorpc import messages
-from model.event import Evento
+from model.event import Event
 
 class EventInformation(messages.Message):
     nome = messages.StringField(1)
@@ -26,99 +26,71 @@ class EventInformation(messages.Message):
 Gets information about a specific event given key (name)
 
 Information (JSON object) -> EventInformation
-''' 
+'''
 class GetEventInformation(webapp.RequestHandler):
-    
+
     def get(self, *args):
-        
-        # Get event name from HTTP argument
-        event_name = str(self.request.get_all("name")[0])             
-        event_name = event_name.replace("_", " ")           
-        
-        self.response.headers['Content-Type'] = 'application/json'         
-        query = db.GqlQuery("SELECT * "
-                            "FROM Evento")
+        eventName = str(self.request.get_all("name")[0]).replace("_", " ")
 
-        event = Evento()
-        event_info = {}
-        
+        self.response.headers['Content-Type'] = 'application/json'
+        query = db.GqlQuery("SELECT * FROM Event")
+        event = Event()
+        eventInfo = {}
+
         for event in query:
-            e = event            
-            name = e.nome
-            des = e.descricao
-            link = e.link_facebook
-            image_key = e.imagem_key                       
-        
-            if name == event_name:
-                
-                event_info['name'] = str(name)
-                event_info['description'] = str(des)
-                event_info['facebook_link'] = str(link)
-                event_info['author'] = e.author
-                #TODO: event_info['eventTag'] = e.eventTag
-                event_info['image'] = base64.b64encode(str(e.image))
+            e = event
 
+            if e.name == eventName:
+                eventInfo['name'] = str(e.name)
+                eventInfo['description'] = str(e.description)
+                eventInfo['facebook_link'] = str(e.linkFacebook)
+                eventInfo['author'] = e.author
+                eventInfo['eventTag'] = e.eventTag
+                eventInfo['image'] = base64.b64encode(str(e.image))
                 #TODO: put binary into string -> base64 -> put into json array
-              
                 break
-            
-        json_event_info = json.dumps(event_info)    
-        self.response.out.write(json_event_info)
-       
+
+        json_eventInfo = json.dumps(eventInfo)
+        self.response.out.write(json_eventInfo)
+
 
 '''
 Gets a list (JSON array) with the names of all events
 '''
 class GetAllEventsNames(webapp.RequestHandler):
-    
+
     def get(self):
         self.response.headers['Content-Type'] = 'application/json'
-        
-        query = db.GqlQuery("SELECT * "
-                            "FROM Evento")      
+        query = db.GqlQuery("SELECT * FROM Event")
         events = []
-                
+
         for n in query:
-            
-            json_event_info = {}            
-            name = n.nome                      
-            json_event_info['name'] = name         
-            events.append(json_event_info)
-                    
+            jsonEventInfo = {}
+            jsonEventInfo['name'] = n.name
+            events.append(jsonEventInfo)
+
         r = {}
         r['events_names'] = events
-        r = json.dumps(r)        
-        self.response.out.write(r)          
-        
+        r = json.dumps(r)
+        self.response.out.write(r)
 
 '''
 Returns a list (JSON array) with information about all events
-'''        
+'''
 class ShowAllEvents(webapp.RequestHandler):
-    
+
     def get(self, *args):
-        
         self.response.headers['Content-Type'] = 'application/json'
-        
-        query = db.GqlQuery("SELECT * "
-                            "FROM Evento")      
+        query = db.GqlQuery("SELECT * FROM Event")
         events = []
-                
+
         for n in query:
-            
-            json_event_info = {}
-            
-            name = n.nome
-            des = n.descricao
-            link = n.link_facebook
-            image_key = n.imagem_key
-            
-            json_event_info['name'] = str(name)
-            json_event_info['description'] = str(des)
-            json_event_info['facebook_link'] = str(link)
-            json_event_info['image_key'] = str(image_key)          
-            events.append(json_event_info)
-            
-        
+            jsonEventInfo = {}
+            jsonEventInfo['name'] = str(n.name)
+            jsonEventInfo['description'] = str(n.description)
+            jsonEventInfo['facebook_link'] = str(n.linkFacebook)
+            jsonEventInfo['image_key'] = str(n.imageKey)
+            events.append(jsonEventInfo)
+
         response = json.dumps(events)
-        self.response.out.write(response) 
+        self.response.out.write(response)
