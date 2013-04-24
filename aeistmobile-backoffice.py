@@ -10,9 +10,9 @@ import jinja2
 from google.appengine.ext import db
 
 
-from events.web_services import GetAllEventsNames
-from events.web_services import GetEventInformation
-from events.web_services import ShowAllEvents
+# from events.web_services import GetAllEventsNames
+# from events.web_services import GetEventInformation
+# from events.web_services import ShowAllEvents
 
 from controllers.EventController import EventController
 from controllers.DataController import DataController
@@ -60,11 +60,11 @@ routes = [
           (r'/events/delete/(\d+)', EventController.DeleteEventHandler),
           (r'/events/edit/(\d+)', EventController.EditEventHandler),
           (r'/events/images/(\d+)', EventController.ImageHandler),
-          (r'/data/events/(\d+)', DataController.GetEventData),
-          (r'/data/events', DataController.GetAllEventsData),
-          ('/delete-event',EventController),
-          ('/getalleventsnames',GetAllEventsNames),
-          ('/showallevents',ShowAllEvents),
+          (r'/api/events/(\d+)', DataController.GetEventData),
+          (r'/api/events', DataController.GetAllEventsData),
+          ('/delete-event',EventController)
+          # ('/getalleventsnames',GetAllEventsNames),
+          # ('/showallevents',ShowAllEvents),
           ]
 
 app = webapp2.WSGIApplication(routes=routes, debug=True)
