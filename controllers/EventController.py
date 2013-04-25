@@ -46,8 +46,8 @@ class EventController(webapp2.RequestHandler):
             event.eventTag = "default-tag"
             event.author = "default"
 
-            # if self.request.get("image"):
-            #     event.image = db.Blob(images.resize(self.request.get("image"), 300))
+            if self.request.get("image"):
+                event.image = db.Blob(images.resize(self.request.get("image"), 300))
 
             event.put()
             self.redirect("/events")
@@ -57,7 +57,7 @@ class EventController(webapp2.RequestHandler):
         def get(self, *args):
             event = getEvent(args[0])
             template = EventController.getTemplate('templates/show_event.html')
-            self.response.out.write(template.render({}))
+            self.response.out.write(template.render(event))
 
     class DeleteEventHandler(webapp2.RequestHandler):
 
@@ -74,7 +74,7 @@ class EventController(webapp2.RequestHandler):
         def get(self, ident):
             event = getEvent(ident)
             template = EventController.getTemplate('templates/edit_event.html')
-            self.response.out.write(template.render({}))
+            self.response.out.write(template.render(event))
 
         def post(self, ident):
             event = Event.get_by_id(long(ident))
@@ -87,8 +87,8 @@ class EventController(webapp2.RequestHandler):
             event.eventTag = "default-tag"
             event.author = "default"
 
-            # if image:
-            #     event.image = db.Blob(self.request.get("image"))
+            if self.request.get("image"):
+                event.image = db.Blob(images.resize(self.request.get("image"), 300))
 
             db.put(event)
             self.redirect("/events")
@@ -120,8 +120,8 @@ def getAllEvents(self):
         jsonEventInfo['author'] = str(n.author)
         currentUrl = self.request.url;
 
-        if " " in jsonEventInfo['name']:
-            jsonEventInfo['name'] = re.sub(r"\s","_", jsonEventInfo['name'])
+        # if " " in jsonEventInfo['name']:
+        #     jsonEventInfo['name'] = re.sub(r"\s","_", jsonEventInfo['name'])
 
         jsonEventInfo['delete_link'] = currentUrl + '/delete/' + str(n.key().id())
         jsonEventInfo['edit_link'] = currentUrl + '/edit/' + str(n.key().id())
@@ -145,8 +145,8 @@ def getEvent(ident):
     jsonEventInfo['author'] = str(event.author)
     jsonEventInfo['image_link'] = '/events/images/' + str(ident)
 
-    if " " in jsonEventInfo['name']:
-        jsonEventInfo['name'] = re.sub(r"\s","_",jsonEventInfo['name'])
+    # if " " in jsonEventInfo['name']:
+    #     jsonEventInfo['name'] = re.sub(r"\s","_",jsonEventInfo['name'])
 
     event = jsonEventInfo
     return event
