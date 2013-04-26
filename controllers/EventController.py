@@ -120,9 +120,6 @@ def getAllEvents(self):
         jsonEventInfo['author'] = str(n.author)
         currentUrl = self.request.url;
 
-        # if " " in jsonEventInfo['name']:
-        #     jsonEventInfo['name'] = re.sub(r"\s","_", jsonEventInfo['name'])
-
         jsonEventInfo['delete_link'] = currentUrl + '/delete/' + str(n.key().id())
         jsonEventInfo['edit_link'] = currentUrl + '/edit/' + str(n.key().id())
         jsonEventInfo['direct_link'] = currentUrl + '/' + str(n.key().id())
@@ -144,9 +141,6 @@ def getEvent(ident):
     jsonEventInfo['image_key'] = str(event.imageKey)
     jsonEventInfo['author'] = str(event.author)
     jsonEventInfo['image_link'] = '/events/images/' + str(ident)
-
-    # if " " in jsonEventInfo['name']:
-    #     jsonEventInfo['name'] = re.sub(r"\s","_",jsonEventInfo['name'])
 
     event = jsonEventInfo
     return event
