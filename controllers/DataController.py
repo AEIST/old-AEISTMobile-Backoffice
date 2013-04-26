@@ -36,14 +36,15 @@ class DataController(webapp2.RequestHandler):
             eventsData = []
 
             for event in query:
-                eventsData = {
+                eventData = {
+                    "id": event.key().id(),
                     "name": event.name,
                     "description": event.description,
                     "facebook_link": event.linkFacebook,
                     "image": base64.b64encode(str(event.image))
                 }
 
-                eventsData.append(eventsData)
+                eventsData.append(eventData)
 
             jsonEventsData = json.dumps(eventsData)
 
