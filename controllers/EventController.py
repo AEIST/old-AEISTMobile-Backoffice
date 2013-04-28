@@ -78,8 +78,8 @@ class EventController(webapp2.RequestHandler):
 
         def post(self, ident):
             event = Event.get_by_id(long(ident))
-            event.nome = self.request.get("name")
-            event.descricao = self.request.get("description")
+            event.name = self.request.get("name")
+            event.description = self.request.get("description")
             event.local = self.request.get("local")
             event.date = self.request.get("date")
             event.time = self.request.get("time")
