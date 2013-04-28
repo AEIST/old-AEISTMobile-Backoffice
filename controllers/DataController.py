@@ -22,6 +22,9 @@ class DataController(webapp2.RequestHandler):
             eventData = {
                 "name": event.name,
                 "description": event.description,
+                "local": event.local,
+                "date": event.date,
+                "time": event.time,
                 "facebook_link": event.linkFacebook,
                 "image": base64.b64encode(str(event.image))
             }
@@ -40,6 +43,9 @@ class DataController(webapp2.RequestHandler):
                     "id": event.key().id(),
                     "name": event.name,
                     "description": event.description,
+                    "local": event.local,
+                    "date": event.date,
+                    "time": event.time,
                     "facebook_link": event.linkFacebook,
                     "image": base64.b64encode(str(event.image))
                 }

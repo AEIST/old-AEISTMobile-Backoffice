@@ -12,6 +12,9 @@ handlers:
 - url: /Resources/img
   static_dir: Resources/img
 
+- url: /test.*
+  script: gaeunit.application
+
 - url: /.*
   script: aeistmobile-backoffice.app
 
