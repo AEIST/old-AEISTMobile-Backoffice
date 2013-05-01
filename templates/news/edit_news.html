@@ -1,0 +1,26 @@
+{% extends "templates/_base.html" %}
+{% block bodycontent %}
+
+{% block News %}
+
+<form action="{{ edit_link }}" method="post" enctype="multipart/form-data">
+    <fieldset>
+        <legend>Editar notícia</legend>
+        <label for="title">Título:</label>
+        <input type="text" name="title" required value="{{ title }}" class="span5">
+        <label for="short_description">Breve descrição:</label>
+        <textarea name="short_description" required rows="5" class="span5">{{ short_description }}</textarea>
+        <label for="description">Descrição:</label>
+        <textarea name="description" required rows="5" class="span5">{{ description }}</textarea>
+        <label for="image">Imagem:</label>
+        <input type="file" name="image">
+        <br>
+        <br>
+        <input type="submit" class="btn btn-primary" value="Editar">
+        <a href="/news" class="btn">Cancelar</a>
+    </fieldset>
+</form>
+
+{% endblock News %}
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "templates/_base.html" %}
+{% block bodycontent %}
+
+{% block News %}
+<div class="row-fluid">
+    <div class="span12">
+        <h2>{{ title }}</h2>
+        <p>{{ short_description }}</p>
+        <p>{{ description }}</p>
+        <img src="{{ image_link }}" alt="">
+    </div>
+</div>
+<br>
+<div class="row-fluid">
+    <div class="span12">
+        <a href="/news" class="btn">Voltar</a>
+    </div>
+</div>
+{% endblock News %}
+
+{% endblock %}

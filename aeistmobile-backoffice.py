@@ -15,6 +15,7 @@ from google.appengine.ext import db
 # from events.web_services import ShowAllEvents
 
 from controllers.EventController import EventController
+from controllers.NewsController import NewsController
 from controllers.DataController import DataController
 
 
@@ -60,8 +61,14 @@ routes = [
           (r'/events/delete/(\d+)', EventController.DeleteEventHandler),
           (r'/events/edit/(\d+)', EventController.EditEventHandler),
           (r'/events/images/(\d+)', EventController.ImageHandler),
-          (r'/api/events/(\d+)', DataController.GetEventData),
-          (r'/api/events', DataController.GetAllEventsData),
+          ('/news', NewsController),
+          ('/news/new', NewsController.NewNewsHandler),
+          (r'/news/(\d+)', NewsController.ShowNewsHandler),
+          (r'/news/delete/(\d+)', NewsController.DeleteNewsHandler),
+          (r'/news/edit/(\d+)', NewsController.EditNewsHandler),
+          (r'/news/images/(\d+)', NewsController.ImageHandler),
+          (r'/api/news/(\d+)', DataController.GetNewsData),
+          (r'/api/news', DataController.GetAllNewsData),
           ('/delete-event',EventController)
           # ('/getalleventsnames',GetAllEventsNames),
           # ('/showallevents',ShowAllEvents),

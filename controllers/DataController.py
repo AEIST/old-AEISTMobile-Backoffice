@@ -3,13 +3,10 @@
 import webapp2
 from google.appengine.ext import db
 from model.event import Event
+from model.news import News
 
-import datetime
 import json
 import base64
-import os
-import logging
-import re
 
 class DataController(webapp2.RequestHandler):
 
@@ -53,5 +50,45 @@ class DataController(webapp2.RequestHandler):
                 eventsData.append(eventData)
 
             jsonEventsData = json.dumps(eventsData)
+
+            self.response.write(jsonEventsData)
+
+    class GetNewsData(webapp2.RequestHandler):
+
+        def get(self, ident):
+            news = News.get_by_id(long(ident))
+            self.response.headers['Content-Type'] = 'application/json'
+
+            data = {
+                "title": news.title,
+                "short_description": news.short_description,
+                "description": news.description,
+                "date": news.date,
+                "image": base64.b64encode(str(news.image))
+            }
+            
+            jsonNewsData = json.dumps(data)
+            self.response.write(jsonNewsData)
+
+    class GetAllNewsData(webapp2.RequestHandler):
+
+        def get(self):
+            self.response.headers['Content-Type'] = 'application/json'
+            query = db.GqlQuery("SELECT * FROM News")
+            newsData = []
+
+            for news in query:
+                data = {
+                    "id": news.key().id(),
+                    "title": news.title,
+                    "short_description": news.short_description,
+                    "description": news.description,
+                    "date": news.date,
+                    "image": base64.b64encode(str(news.image))
+                }
+
+                newsData.append(data)
+
+            jsonEventsData = json.dumps(newsData)
 
             self.response.write(jsonEventsData)
