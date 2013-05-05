@@ -1,3 +1,5 @@
+#coding=utf-8
+
 import unittest
 import webapp2
 from libraries import webtest

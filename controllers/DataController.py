@@ -19,7 +19,7 @@ class DataController(webapp2.RequestHandler):
             eventData = {
                 "name": event.name,
                 "description": event.description,
-                "local": event.local,
+                "location": event.location,
                 "date": event.date,
                 "time": event.time,
                 "facebook_link": event.linkFacebook,
@@ -40,7 +40,7 @@ class DataController(webapp2.RequestHandler):
                     "id": event.key().id(),
                     "name": event.name,
                     "description": event.description,
-                    "local": event.local,
+                    "location": event.location,
                     "date": event.date,
                     "time": event.time,
                     "facebook_link": event.linkFacebook,

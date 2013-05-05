@@ -1,16 +1,10 @@
-#!/usr/bin/python
-
 import webapp2
 import jinja2
 from google.appengine.ext import db
 from google.appengine.api import images
 from model.event import Event
 
-import datetime
-import json
 import os
-import logging
-import re
 
 class EventController(webapp2.RequestHandler):
 
@@ -39,7 +33,7 @@ class EventController(webapp2.RequestHandler):
             event = Event()
             event.name = self.request.get("name")
             event.description = self.request.get("description")
-            event.local = self.request.get("local")
+            event.location = self.request.get("location")
             event.date = self.request.get("date")
             event.time = self.request.get("time")
             event.linkFacebook = self.request.get("facebook_link")
@@ -47,7 +41,7 @@ class EventController(webapp2.RequestHandler):
             event.author = "default"
 
             if self.request.get("image"):
-                event.image = db.Blob(images.resize(self.request.get("image"), 300))
+                event.image = db.Blob(images.resize(self.request.get("image"), 600))
 
             event.put()
             self.redirect("/events")
@@ -80,15 +74,15 @@ class EventController(webapp2.RequestHandler):
             event = Event.get_by_id(long(ident))
             event.name = self.request.get("name")
             event.description = self.request.get("description")
-            event.local = self.request.get("local")
+            event.location = self.request.get("location")
             event.date = self.request.get("date")
             event.time = self.request.get("time")
-            event.link_facebook = self.request.get("facebook_link")
+            event.linkFacebook = self.request.get("facebook_link")
             event.eventTag = "default-tag"
             event.author = "default"
 
             if self.request.get("image"):
-                event.image = db.Blob(images.resize(self.request.get("image"), 300))
+                event.image = db.Blob(images.resize(self.request.get("image"), 600))
 
             db.put(event)
             self.redirect("/events")
@@ -110,14 +104,14 @@ def getAllEvents(self):
     for n in query:
 
         jsonEventInfo = {}
-        jsonEventInfo['name'] = str(n.name)
-        jsonEventInfo['description'] = str(n.description)
-        jsonEventInfo['local'] = str(n.local)
-        jsonEventInfo['date'] = str(n.date)
-        jsonEventInfo['time'] = str(n.time)
-        jsonEventInfo['facebook_link'] = str(n.linkFacebook)
-        jsonEventInfo['image_key'] = str(n.imageKey)
-        jsonEventInfo['author'] = str(n.author)
+        jsonEventInfo['name'] = n.name
+        jsonEventInfo['description'] = n.description
+        jsonEventInfo['location'] = n.location
+        jsonEventInfo['date'] = n.date
+        jsonEventInfo['time'] = n.time
+        jsonEventInfo['facebook_link'] = n.linkFacebook
+        jsonEventInfo['image_key'] = n.imageKey
+        jsonEventInfo['author'] = n.author
         currentUrl = self.request.url;
 
         jsonEventInfo['delete_link'] = currentUrl + '/delete/' + str(n.key().id())
@@ -132,14 +126,14 @@ def getEvent(ident):
     event = Event.get_by_id(long(ident))
 
     jsonEventInfo = {}
-    jsonEventInfo['name'] = str(event.name)
-    jsonEventInfo['description'] = str(event.description)
-    jsonEventInfo['local'] = str(event.local)
-    jsonEventInfo['date'] = str(event.date)
-    jsonEventInfo['time'] = str(event.time)
-    jsonEventInfo['facebook_link'] = str(event.linkFacebook)
-    jsonEventInfo['image_key'] = str(event.imageKey)
-    jsonEventInfo['author'] = str(event.author)
+    jsonEventInfo['name'] = event.name
+    jsonEventInfo['description'] = event.description
+    jsonEventInfo['location'] = event.location
+    jsonEventInfo['date'] = event.date
+    jsonEventInfo['time'] = event.time
+    jsonEventInfo['facebook_link'] = event.linkFacebook
+    jsonEventInfo['image_key'] = event.imageKey
+    jsonEventInfo['author'] = event.author
     jsonEventInfo['image_link'] = '/events/images/' + str(ident)
 
     event = jsonEventInfo
