@@ -61,6 +61,8 @@ routes = [
           (r'/events/delete/(\d+)', EventController.DeleteEventHandler),
           (r'/events/edit/(\d+)', EventController.EditEventHandler),
           (r'/events/images/(\d+)', EventController.ImageHandler),
+          (r'/api/events/(\d+)', DataController.GetEventData),
+          (r'/api/events', DataController.GetAllEventsData),
           ('/news', NewsController),
           ('/news/new', NewsController.NewNewsHandler),
           (r'/news/(\d+)', NewsController.ShowNewsHandler),
