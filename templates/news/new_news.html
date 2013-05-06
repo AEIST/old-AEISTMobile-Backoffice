@@ -1,0 +1,23 @@
+{% extends "templates/_base.html" %}
+{% block bodycontent %}
+
+
+<form action="/news/new" method="post" enctype="multipart/form-data">
+    <fieldset>
+        <legend>Criar notícia</legend>
+        <label for="title">Título:</label>
+        <input type="text" name="title" required class="span5" autofocus>
+        <label for="short_description">Breve descrição:</label>
+        <textarea class="span5" name="short_description" required rows="5"></textarea>
+        <label for="description">Descrição:</label>
+        <textarea class="span5" name="description" required rows="5"></textarea>
+        <label for="image">Imagem:</label>
+        <input type="file" name="image">
+        <br>
+        <br>
+        <input type="submit" class="btn btn-primary" value="Criar">
+        <a href="/news" class="btn">Cancelar</a>
+    </fieldset>
+</form>
+
+{% endblock %}

@@ -2,49 +2,43 @@
 {% block bodycontent %}
 <div class="row-fluid">
     <div class="span12">
-        <a class="btn btn-primary" href="/events/new">Novo evento</a>
+        <a class="btn btn-primary" href="/news/new">Nova notícia</a>
     </div>
 </div>
 <br>
-{% block Event %}
+{% block News %}
 <div class="row-fluid">
     <div class="span12">
-        {% if events %}
+        {% if news %}
         <table class="table table-bordered table-striped table-hover">
             <thead>
                 <tr>
-                    <th>Nome</th>
-                    <th>Descrição</th>
-                    <th>Local</th>
+                    <th>Título</th>
+                    <th>Breve descrição</th>
                     <th>Data</th>
-                    <th>Hora</th>
-                    <th>Link</th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
-                {% for e in events %}
+                {% for n in news %}
                 <tr>
-                    <td><a href="{{ e.direct_link }}">{{e.name}}</a></td>
-                    <td>{{e.description}}</td>
-                    <td>{{ e.location }}</td>
-                    <td>{{ e.date }}</td>
-                    <td>{{ e.time }}</td>
-                    <td><a href="{{e.facebook_link}}">{{ e.facebook_link }}</a></td>
+                    <td><a href="{{ n.direct_link }}">{{n.title}}</a></td>
+                    <td>{{ n.short_description }}</td>
+                    <td>{{ n.date }}</td>
                     <td>
-                        <a href="{{ e.edit_link }}" class="btn"><i class="icon-pencil"></i></a>
+                        <a href="{{ n.edit_link }}" class="btn"><i class="icon-pencil"></i></a>
                         <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"><i class="icon-trash icon-white"></i></a>
                         <div id="deleteModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
                           <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h3 id="myModalLabel">Eliminar evento</h3>
+                            <h3 id="myModalLabel">Eliminar notícia</h3>
                         </div>
                         <div class="modal-body">
-                            <p>Deseja eliminar este evento?</p>
+                            <p>Deseja eliminar esta notícia?</p>
                         </div>
                         <div class="modal-footer">
                             <a class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</a>
-                            <a class="btn btn-danger" href="{{ e.delete_link }}">Eliminar</a>
+                            <a class="btn btn-danger" href="{{ n.delete_link }}">Eliminar</a>
                         </div>
                     </div>
                     </td>
@@ -56,10 +50,10 @@
     </div>
 </div>
 
-{% endblock Event %}
+{% endblock News %}
 <script>
     (function () {
-        $('#events-tab').addClass('active');
+        $('#news-tab').addClass('active');
         $('#myModal').modal('hide');
 
     })();
