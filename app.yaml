@@ -17,6 +17,7 @@ handlers:
 
 - url: /.*
   script: aeistmobile-backoffice.app
+  login: admin
 
 libraries:
 - name: jinja2

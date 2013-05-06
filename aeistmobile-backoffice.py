@@ -8,6 +8,7 @@ import re
 import webapp2
 import jinja2
 from google.appengine.ext import db
+from google.appengine.api import users
 
 
 # from events.web_services import GetAllEventsNames
@@ -45,6 +46,10 @@ def getAllEvents(self):
 
       return events
 
+class Logout(webapp2.RequestHandler):
+    
+    def get(self):
+        self.response.out.write("Follow this url to <a href=\"%s\">logout</a>" % users.create_logout_url("/"))
 
 
 class MainPage(webapp2.RequestHandler):
@@ -55,6 +60,7 @@ class MainPage(webapp2.RequestHandler):
 
 routes = [
           ('/', MainPage),
+          ('/logout', Logout),
           ('/events', EventController),
           ('/events/new', EventController.NewEventHandler),
           (r'/events/(\d+)', EventController.ShowEventHandler),
