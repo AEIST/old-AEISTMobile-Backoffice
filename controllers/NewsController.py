@@ -37,7 +37,7 @@ class NewsController(webapp2.RequestHandler):
             news.title = self.request.get("title")
             news.short_description = self.request.get("short_description")
             news.description = self.request.get("description")
-            news.created_at = datetime.now().strftime('%Y-%m-%d')
+            news.created_at = datetime.now().date()
 
             if self.request.get("image"):
                 news.image = db.Blob(images.resize(self.request.get("image"), 300))
@@ -74,7 +74,6 @@ class NewsController(webapp2.RequestHandler):
             news.title = self.request.get("title")
             news.short_description = self.request.get("short_description")
             news.description = self.request.get("description")
-            news.date = self.request.get("date")
 
             if self.request.get("image"):
                 news.image = db.Blob(images.resize(self.request.get("image"), 300))
@@ -93,7 +92,8 @@ class NewsController(webapp2.RequestHandler):
 
 
 def getAllNews(self):
-    query = db.GqlQuery("SELECT * FROM News")
+    query = News.all().order("-created_at")
+#     query = db.GqlQuery("SELECT * FROM News")
     news = []
 
     for n in query:
@@ -102,7 +102,7 @@ def getAllNews(self):
         jsonEventInfo['title'] = n.title
         jsonEventInfo['short_description'] = n.short_description
         jsonEventInfo['description'] = n.description
-        jsonEventInfo['date'] = n.created_at
+        jsonEventInfo['date'] = n.created_at.strftime('%d-%m-%Y')
         
         currentUrl = self.request.url;
 
@@ -121,7 +121,9 @@ def getNews(ident):
     jsonEventInfo['title'] = news.title
     jsonEventInfo['short_description'] = news.short_description
     jsonEventInfo['description'] = news.description
-    jsonEventInfo['image_link'] = '/news/images/' + str(ident)
+    
+    if news.image:
+        jsonEventInfo['image_link'] = '/news/images/' + str(ident)
 
     news = jsonEventInfo
     return news

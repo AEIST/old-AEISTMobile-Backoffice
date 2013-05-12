@@ -7,7 +7,9 @@
         <h2>{{ title }}</h2>
         <p>{{ short_description }}</p>
         <p>{{ description }}</p>
+        {% if image_link %}
         <img src="{{ image_link }}" alt="">
+        {% endif %}
     </div>
 </div>
 <br>
