@@ -93,7 +93,6 @@ class NewsController(webapp2.RequestHandler):
 
 def getAllNews(self):
     query = News.all().order("-created_at")
-#     query = db.GqlQuery("SELECT * FROM News")
     news = []
 
     for n in query:
