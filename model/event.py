@@ -6,7 +6,7 @@ class Event(db.Model):
     description = db.TextProperty()
     linkFacebook = db.LinkProperty()
     location = db.StringProperty()
-    date = db.StringProperty()
+    date = db.DateProperty()
     time = db.StringProperty()
     imageKey = db.StringProperty()
     image = db.BlobProperty()

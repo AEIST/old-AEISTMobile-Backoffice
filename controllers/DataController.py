@@ -7,6 +7,7 @@ from model.news import News
 
 import json
 import base64
+from datetime import datetime
 
 class DataController(webapp2.RequestHandler):
 
@@ -32,7 +33,7 @@ class DataController(webapp2.RequestHandler):
 
         def get(self):
             self.response.headers['Content-Type'] = 'application/json'
-            query = db.GqlQuery("SELECT * FROM Event")
+            query = Event.all().order("-date")
             eventsData = []
 
             for event in query:
@@ -41,7 +42,32 @@ class DataController(webapp2.RequestHandler):
                     "name": event.name,
                     "description": event.description,
                     "location": event.location,
-                    "date": event.date,
+                    "date": event.date.strftime('%d-%m-%Y'),
+                    "time": event.time,
+                    "facebook_link": event.linkFacebook,
+                    "image": base64.b64encode(str(event.image))
+                }
+
+                eventsData.append(eventData)
+
+            jsonEventsData = json.dumps(eventsData)
+
+            self.response.write(jsonEventsData)
+            
+    class GetNextEventsData(webapp2.RequestHandler):
+        
+        def get(self):
+            self.response.headers['Content-Type'] = 'application/json'
+            query = Event.all().order("date").filter("date >=", datetime.now().date())
+            eventsData = []
+
+            for event in query:
+                eventData = {
+                    "id": event.key().id(),
+                    "name": event.name,
+                    "description": event.description,
+                    "location": event.location,
+                    "date": event.date.strftime('%d-%m-%Y'),
                     "time": event.time,
                     "facebook_link": event.linkFacebook,
                     "image": base64.b64encode(str(event.image))
@@ -74,7 +100,7 @@ class DataController(webapp2.RequestHandler):
 
         def get(self):
             self.response.headers['Content-Type'] = 'application/json'
-            query = db.GqlQuery("SELECT * FROM News")
+            query = News.all().order("-created_at")
             newsData = []
 
             for news in query:
@@ -83,7 +109,7 @@ class DataController(webapp2.RequestHandler):
                     "title": news.title,
                     "short_description": news.short_description,
                     "description": news.description,
-                    "created_at": news.created_at,
+                    "created_at": news.created_at.strftime('%d-%m-%Y'),
                     "image": base64.b64encode(str(news.image))
                 }
 

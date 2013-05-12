@@ -6,7 +6,9 @@
     <div class="span12">
         <h2>{{ name }}</h2>
         <p>{{ description }}</p>
+        {% if image_link %}
         <img src="{{ image_link }}" alt="">
+        {% endif %}
     </div>
 </div>
 <br>
