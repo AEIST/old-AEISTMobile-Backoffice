@@ -89,7 +89,7 @@ class DataController(webapp2.RequestHandler):
                 "title": news.title,
                 "short_description": news.short_description,
                 "description": news.description,
-                "created_at": news.created_at,
+                "created_at": news.created_at.strftime('%d-%m-%Y'),
                 "image": base64.b64encode(str(news.image))
             }
             
