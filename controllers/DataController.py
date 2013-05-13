@@ -21,7 +21,7 @@ class DataController(webapp2.RequestHandler):
                 "name": event.name,
                 "description": event.description,
                 "location": event.location,
-                "date": event.date,
+                "date": event.date.strftime('%d-%m-%Y'),
                 "time": event.time,
                 "facebook_link": event.linkFacebook,
                 "image": base64.b64encode(str(event.image))
