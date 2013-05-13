@@ -2,6 +2,7 @@ import webapp2
 import jinja2
 from google.appengine.ext import db
 from google.appengine.api import images
+from datetime import datetime
 from model.event import Event
 
 import os
@@ -31,10 +32,12 @@ class EventController(webapp2.RequestHandler):
 
         def post(self):
             event = Event()
+            date_string = self.request.get("date")
+            
             event.name = self.request.get("name")
             event.description = self.request.get("description")
             event.location = self.request.get("location")
-            event.date = self.request.get("date")
+            event.date = datetime.strptime(date_string, '%Y-%m-%d').date()
             event.time = self.request.get("time")
             event.linkFacebook = self.request.get("facebook_link")
             event.eventTag = "default-tag"
@@ -72,10 +75,12 @@ class EventController(webapp2.RequestHandler):
 
         def post(self, ident):
             event = Event.get_by_id(long(ident))
+            date_string = self.request.get("date")
+            
             event.name = self.request.get("name")
             event.description = self.request.get("description")
             event.location = self.request.get("location")
-            event.date = self.request.get("date")
+            event.date = datetime.strptime(date_string, '%Y-%m-%d').date()
             event.time = self.request.get("time")
             event.linkFacebook = self.request.get("facebook_link")
             event.eventTag = "default-tag"
@@ -98,7 +103,7 @@ class EventController(webapp2.RequestHandler):
 
 
 def getAllEvents(self):
-    query = db.GqlQuery("SELECT * FROM Event")
+    query = db.GqlQuery("SELECT * FROM Event ORDER BY date DESC")
     events = []
 
     for n in query:
@@ -107,7 +112,7 @@ def getAllEvents(self):
         jsonEventInfo['name'] = n.name
         jsonEventInfo['description'] = n.description
         jsonEventInfo['location'] = n.location
-        jsonEventInfo['date'] = n.date
+        jsonEventInfo['date'] = n.date.strftime('%d-%m-%Y')
         jsonEventInfo['time'] = n.time
         jsonEventInfo['facebook_link'] = n.linkFacebook
         jsonEventInfo['image_key'] = n.imageKey
@@ -129,12 +134,14 @@ def getEvent(ident):
     jsonEventInfo['name'] = event.name
     jsonEventInfo['description'] = event.description
     jsonEventInfo['location'] = event.location
-    jsonEventInfo['date'] = event.date
+    jsonEventInfo['date'] = event.date.strftime('%Y-%m-%d')
     jsonEventInfo['time'] = event.time
     jsonEventInfo['facebook_link'] = event.linkFacebook
     jsonEventInfo['image_key'] = event.imageKey
     jsonEventInfo['author'] = event.author
-    jsonEventInfo['image_link'] = '/events/images/' + str(ident)
+    
+    if event.image:
+        jsonEventInfo['image_link'] = '/events/images/' + str(ident)
 
     event = jsonEventInfo
     return event
