@@ -15,6 +15,9 @@ handlers:
 - url: /test.*
   script: gaeunit.application
 
+- url: /api.*
+  script: aeistmobile-api.app
+
 - url: /.*
   script: aeistmobile-backoffice.app
   login: admin

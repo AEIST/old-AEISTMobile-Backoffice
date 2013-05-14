@@ -49,7 +49,7 @@ def getAllEvents(self):
 class Logout(webapp2.RequestHandler):
     
     def get(self):
-        self.response.out.write("Follow this url to <a href=\"%s\">logout</a>" % users.create_logout_url("/"))
+        self.redirect(users.create_logout_url("/"))
 
 
 class MainPage(webapp2.RequestHandler):
@@ -67,20 +67,12 @@ routes = [
           (r'/events/delete/(\d+)', EventController.DeleteEventHandler),
           (r'/events/edit/(\d+)', EventController.EditEventHandler),
           (r'/events/images/(\d+)', EventController.ImageHandler),
-          (r'/api/events/(\d+)', DataController.GetEventData),
-          (r'/api/events', DataController.GetAllEventsData),
-          (r'/api/next_events', DataController.GetNextEventsData),
           ('/news', NewsController),
           ('/news/new', NewsController.NewNewsHandler),
           (r'/news/(\d+)', NewsController.ShowNewsHandler),
           (r'/news/delete/(\d+)', NewsController.DeleteNewsHandler),
           (r'/news/edit/(\d+)', NewsController.EditNewsHandler),
-          (r'/news/images/(\d+)', NewsController.ImageHandler),
-          (r'/api/news/(\d+)', DataController.GetNewsData),
-          (r'/api/news', DataController.GetAllNewsData),
-          ('/delete-event',EventController)
-          # ('/getalleventsnames',GetAllEventsNames),
-          # ('/showallevents',ShowAllEvents),
+          (r'/news/images/(\d+)', NewsController.ImageHandler)
           ]
 
 app = webapp2.WSGIApplication(routes=routes, debug=True)
